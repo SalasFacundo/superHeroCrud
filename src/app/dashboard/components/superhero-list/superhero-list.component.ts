@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, viewChild, ViewChild } from '@angular/core';
+import { Component, effect, inject, OnInit, signal, viewChild, ViewChild } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -6,6 +6,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Superhero } from '../../models/superhero';
 import { SuperheroService } from '../../services/superhero.service';
+import { SuperheroFilterComponent } from '../superhero-filter/superhero-filter.component';
 
 const MATERIAL_MODULES = [
   MatFormFieldModule,
@@ -18,18 +19,26 @@ const MATERIAL_MODULES = [
 @Component({
   selector: 'superhero-list',
   standalone: true,
-  imports: [MATERIAL_MODULES],
+  imports: [MATERIAL_MODULES, SuperheroFilterComponent],
   templateUrl: './superhero-list.component.html',
   styleUrl: './superhero-list.component.scss',
 })
 export class SuperheroListComponent implements OnInit {
   private superheroService = inject(SuperheroService);
+  private readonly sort = viewChild.required<MatSort>(MatSort);
+  private readonly paginator = viewChild.required<MatPaginator>(MatPaginator);
 
   displayedColumns: string[] = ['id', 'name', 'actions'];
   dataSource!: MatTableDataSource<Superhero>;
+  filter = signal('');
 
-  private readonly sort = viewChild.required<MatSort>(MatSort);
-  private readonly paginator = viewChild.required<MatPaginator>(MatPaginator);
+  constructor(){
+    effect( () => {
+      if(this.filter()){
+        this.dataSource.filter = this.filter();
+      }
+    })
+  }
 
   ngOnInit(): void {
     this.initData();

@@ -1,7 +1,4 @@
-<mat-form-field>
-  <mat-label>Filter</mat-label>
-  <input matInput (input)="applyFilter($event)" placeholder="Ex. Mia" #input>
-</mat-form-field>
+<superhero-filter [(filter)]="filter"></superhero-filter>
 
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" matSort>
@@ -25,7 +22,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
     <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">No se encuentra "{{input.value}}"</td>
+      <td class="mat-cell" colspan="4">"{{filter()}}" not found</td>
     </tr>
   </table>
 
