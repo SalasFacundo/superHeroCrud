@@ -1,0 +1,39 @@
+#page {
+  background-image: url('/../assets/img/marvel-comics.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+
+  #title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    font-size: 60px;
+
+    padding-top: 60px;
+    margin-bottom: 60px;
+
+    span {
+      border-radius: 15px;
+      font-family: "Oswald", sans-serif;
+      font-weight: 700;
+      font-style: normal;
+      padding: 50px;
+      background: rgba(255, 0, 0, 0.5);
+      background: radial-gradient(circle, rgba(255, 0, 0, 0.5) 0%, rgba(93, 3, 3, 1) 100%);
+    }
+  }
+
+  superhero-list {
+    display: block;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(249, 249, 249, 0.9);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+}
