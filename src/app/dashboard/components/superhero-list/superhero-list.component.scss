@@ -1,7 +1,34 @@
-table {
-  width: 100%;
-}
+#component{
+  #superhero-list {
+    text-align: center;
+    width: 100%;
 
-td, th {
-  width: 25%;
+    #actions_column{
+      text-align: center;
+    }
+
+    #actions_header, #actions_content{
+      text-align: center;
+    }
+
+    .action_button{
+      cursor: pointer;
+      border-radius: 15px;
+      padding: 3px;
+      margin-left: 15px;
+    }
+
+    #edit_button{
+      background-color: rgb(236, 236, 89);
+    }
+
+    #delete_button{
+      background-color: rgb(245, 54, 54);
+    }
+
+
+    td, th {
+      width: 25%;
+    }
+  }
 }

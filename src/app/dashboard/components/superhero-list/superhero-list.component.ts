@@ -7,6 +7,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Superhero } from '../../models/superhero';
 import { SuperheroService } from '../../services/superhero.service';
 import { SuperheroFilterComponent } from '../superhero-filter/superhero-filter.component';
+import {MatIconModule} from '@angular/material/icon';
 
 const MATERIAL_MODULES = [
   MatFormFieldModule,
@@ -14,6 +15,7 @@ const MATERIAL_MODULES = [
   MatTableModule,
   MatSortModule,
   MatPaginatorModule,
+  MatIconModule
 ];
 
 @Component({
