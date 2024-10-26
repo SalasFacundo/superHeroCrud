@@ -1,6 +1,13 @@
 <div id="component">
-  <superhero-filter [(filter)]="filter"></superhero-filter>
-
+  <div id="header-actions">
+    <superhero-filter [(filter)]="filter"></superhero-filter>
+    <div id="add-hero-button">
+      <a mat-fab extended (click)="onAddModal()">
+        <mat-icon>add</mat-icon>
+        New
+      </a>
+    </div>
+  </div>
   <div class="mat-elevation-z8">
     <table id="superhero-list" mat-table [dataSource]="dataSource" matSort>
 

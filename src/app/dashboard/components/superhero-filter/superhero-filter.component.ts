@@ -22,7 +22,5 @@ const MATERIAL_MODULES = [
   styleUrl: './superhero-filter.component.scss'
 })
 export class SuperheroFilterComponent {
-
   filter = model('');
-
 }

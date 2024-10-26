@@ -1,4 +1,19 @@
 #component{
+  #header-actions{
+    display: flex;
+    width: 100%;
+    gap: 15px;
+
+    superhero-filter{
+      flex-basis: 90%;
+    }
+
+    #add-hero-button{
+      flex-basis: 10%;
+      margin-bottom: 15px;
+    }
+  }
+
   #superhero-list {
     text-align: center;
     width: 100%;
