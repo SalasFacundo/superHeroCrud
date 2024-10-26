@@ -4,7 +4,7 @@
     <p>{{(data.editMode) ? 'Whats your new superhero?': 'Whats your new superhero name?'}}</p>
     <mat-form-field>
       <mat-label>Superhero name</mat-label>
-      <input matInput [(ngModel)]="name" uppercase/>
+      <input matInput [(ngModel)]="name" maxlength="25" uppercase/>
     </mat-form-field>
     @if(errorMessage()){
     <mat-error>{{errorMessage()}}</mat-error>
