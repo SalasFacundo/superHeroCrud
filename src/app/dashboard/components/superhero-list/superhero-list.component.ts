@@ -11,6 +11,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationModalComponent } from '../modals/confirmation-modal/confirmation-modal.component';
 import { AddEditModalComponent } from '../modals/add-edit-modal/add-edit-modal.component';
+import { MatButtonModule } from '@angular/material/button';
 
 const MATERIAL_MODULES = [
   MatFormFieldModule,
@@ -18,7 +19,8 @@ const MATERIAL_MODULES = [
   MatTableModule,
   MatSortModule,
   MatPaginatorModule,
-  MatIconModule
+  MatIconModule,
+  MatButtonModule
 ];
 
 @Component({
@@ -32,7 +34,6 @@ export class SuperheroListComponent implements OnInit {
 
   private superheroService = inject(SuperheroService);
   readonly dialog = inject(MatDialog);
-  readonly superHeroName = signal('');
   private readonly sort = viewChild.required<MatSort>(MatSort);
   private readonly paginator = viewChild.required<MatPaginator>(MatPaginator);
 
@@ -44,9 +45,7 @@ export class SuperheroListComponent implements OnInit {
 
   constructor(){
     effect( () => {
-      if(this.filter()){
         this.dataSource.filter = this.filter();
-      }
     })
   }
 
@@ -86,7 +85,8 @@ export class SuperheroListComponent implements OnInit {
 
      dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
-        //TODO implementar servicio para editar
+        superhero.name = result;
+        this.superheroService.editSuperhero(superhero);
       }
     });
   }
@@ -100,9 +100,22 @@ export class SuperheroListComponent implements OnInit {
 
    dialogRef.afterClosed().subscribe(result => {
     if (result) {
-      console.log("elimino heroe: "+superhero.id)
-      //TODO implementar servicio para eliminar
+      this.superheroService.deleteSuperhero(superhero.id);
     }
   });
+  }
+
+  onAddModal(){
+    const dialogRef = this.dialog.open(AddEditModalComponent, {
+      data:{
+        editMode: false
+      }
+     });
+
+     dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        this.superheroService.addSuperhero(result);
+      }
+    });
   }
 }
