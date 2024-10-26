@@ -27,10 +27,10 @@ export class AddEditModalComponent {
 
   data = inject(MAT_DIALOG_DATA);
   readonly dialogRef = inject(MatDialogRef<AddEditModalComponent>);
-  readonly name = model(this.data.superhero.name);
+  readonly name = model(this.data.superhero?.name || '');
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(this.name());
   }
 
 }
