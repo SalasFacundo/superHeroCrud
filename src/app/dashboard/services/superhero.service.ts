@@ -1,6 +1,5 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable, Signal, signal, effect, computed } from '@angular/core';
 import { Superhero } from '../models/superhero';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { LoadingService } from './loading.service';
 
@@ -8,26 +7,23 @@ import { LoadingService } from './loading.service';
   providedIn: 'root'
 })
 export class SuperheroService {
-  private httpClient = inject(HttpClient);
-  private loadingService = inject(LoadingService);
-  private superheroes: Superhero[] = [];
-  private superheroesSubject = new BehaviorSubject<Superhero[]>([]);
+  private superheroesSignal = signal<Superhero[]>([]);
   private readonly timeDeelayTest : number = 1000;
 
-  constructor() {
+  constructor(private httpClient: HttpClient, private loadingService: LoadingService) {
     this.loadInitSuperheroes();
   }
 
-  getSuperheroes(): Observable<Superhero[]> {
-    return this.superheroesSubject.asObservable();
+  get superheroes(): Signal<Superhero[]> {
+    return this.superheroesSignal;
   }
 
   addSuperhero(heroName: string): void {
     this.loadingService.show();
     setTimeout(() => {
-      const lastHeroId = this.superheroes.length > 0 ? Math.max(...this.superheroes.map(hero => hero.id)) : 0;
-      this.superheroes.push({ id: lastHeroId + 1, name: heroName });
-      this.superheroesSubject.next([...this.superheroes]);
+      const lastHeroId = this.superheroesSignal().length > 0 ? Math.max(...this.superheroesSignal().map(hero => hero.id)) : 0;
+      const updatedHeroes = [...this.superheroesSignal(), { id: lastHeroId + 1, name: heroName }];
+      this.superheroesSignal.set(updatedHeroes);
 
       this.loadingService.hide();
     }, this.timeDeelayTest);
@@ -35,10 +31,11 @@ export class SuperheroService {
 
   editSuperhero(updatedHero: Superhero): void {
     this.loadingService.show();
-    const index = this.superheroes.findIndex(hero => hero.id === updatedHero.id);
+    const index = this.superheroesSignal().findIndex(hero => hero.id === updatedHero.id);
     if (index !== -1) {
-      this.superheroes[index] = updatedHero;
-      this.superheroesSubject.next([...this.superheroes]);
+      const updatedHeroes = [...this.superheroesSignal()];
+      updatedHeroes[index] = updatedHero;
+      this.superheroesSignal.set(updatedHeroes);
     }
     setTimeout(() => {
       this.loadingService.hide();
@@ -48,23 +45,23 @@ export class SuperheroService {
   deleteSuperhero(heroId: number): void {
     this.loadingService.show();
     setTimeout(() => {
-      this.superheroes = this.superheroes.filter(hero => hero.id !== heroId);
-      this.superheroesSubject.next([...this.superheroes]);
+      const updatedHeroes = this.superheroesSignal().filter(hero => hero.id !== heroId);
+      this.superheroesSignal.set(updatedHeroes);
 
       this.loadingService.hide();
     }, this.timeDeelayTest);
   }
 
   private loadInitSuperheroes() {
-      this.httpClient.get<Superhero[]>('assets/data/superheroes.json').subscribe({
-        next: (data: Superhero[]) => {
-          this.superheroes = data;
-          this.superheroesSubject.next([...this.superheroes]);
-          this.loadingService.hide();
-        },
-        error: (error: any) => {
-          console.error('Error loading superheroes:', error);
-        }
-      });
+    this.loadingService.show();
+    this.httpClient.get<Superhero[]>('assets/data/superheroes.json').subscribe({
+      next: (data: Superhero[]) => {
+        this.superheroesSignal.set(data);
+        this.loadingService.hide();
+      },
+      error: (error: any) => {
+        console.error('Error loading superheroes:', error);
+      }
+    });
   }
 }

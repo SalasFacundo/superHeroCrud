@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit, signal, viewChild, ViewChild } from '@angular/core';
+import { Component, effect, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -7,7 +7,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Superhero } from '../../models/superhero';
 import { SuperheroService } from '../../services/superhero.service';
 import { SuperheroFilterComponent } from '../superhero-filter/superhero-filter.component';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationModalComponent } from '../modals/confirmation-modal/confirmation-modal.component';
 import { AddEditModalComponent } from '../modals/add-edit-modal/add-edit-modal.component';
@@ -28,41 +28,29 @@ const MATERIAL_MODULES = [
   standalone: true,
   imports: [MATERIAL_MODULES, SuperheroFilterComponent],
   templateUrl: './superhero-list.component.html',
-  styleUrl: './superhero-list.component.scss',
+  styleUrls: ['./superhero-list.component.scss'],
 })
-export class SuperheroListComponent implements OnInit {
+export class SuperheroListComponent{
 
   private superheroService = inject(SuperheroService);
   readonly dialog = inject(MatDialog);
-  private readonly sort = viewChild.required<MatSort>(MatSort);
-  private readonly paginator = viewChild.required<MatPaginator>(MatPaginator);
+
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   dialogRef?: MatDialogRef<AddEditModalComponent>;
 
   displayedColumns: string[] = ['id', 'name', 'actions'];
-  dataSource!: MatTableDataSource<Superhero>;
+  dataSource = new MatTableDataSource<Superhero>();
   filter = signal('');
 
-  constructor(){
-    effect( () => {
-        this.dataSource.filter = this.filter();
-    })
-  }
-
-  ngOnInit(): void {
-    this.initData();
-  }
-
-  initData() {
-    this.superheroService.getSuperheroes().subscribe({
-      next: (response: Superhero[]) => {
-        this.dataSource = new MatTableDataSource(response);
-        this.dataSource.paginator = this.paginator();
-        this.dataSource.sort = this.sort();
-      },
-      error: (error: any) => {
-        console.error('Error loading superheroes:', error);
-      },
+  constructor() {
+    effect(() => {
+      this.dataSource.filter = this.filter();
+      const response = this.superheroService.superheroes();
+      this.dataSource.data = response;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
 
@@ -75,15 +63,15 @@ export class SuperheroListComponent implements OnInit {
     }
   }
 
-  onEditModal(superhero: Superhero){
+  onEditModal(superhero: Superhero) {
     const dialogRef = this.dialog.open(AddEditModalComponent, {
-      data:{
+      data: {
         superhero: superhero,
         editMode: true
       }
-     });
+    });
 
-     dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
         superhero.name = result;
         this.superheroService.editSuperhero(superhero);
@@ -91,28 +79,28 @@ export class SuperheroListComponent implements OnInit {
     });
   }
 
-  onDeleteModal(superhero: Superhero){
-   const dialogRef = this.dialog.open(ConfirmationModalComponent, {
-    data:{
-      superhero: superhero
-    }
-   });
+  onDeleteModal(superhero: Superhero) {
+    const dialogRef = this.dialog.open(ConfirmationModalComponent, {
+      data: {
+        superhero: superhero
+      }
+    });
 
-   dialogRef.afterClosed().subscribe(result => {
-    if (result) {
-      this.superheroService.deleteSuperhero(superhero.id);
-    }
-  });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.superheroService.deleteSuperhero(superhero.id);
+      }
+    });
   }
 
-  onAddModal(){
+  onAddModal() {
     const dialogRef = this.dialog.open(AddEditModalComponent, {
-      data:{
+      data: {
         editMode: false
       }
-     });
+    });
 
-     dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
         this.superheroService.addSuperhero(result);
       }
