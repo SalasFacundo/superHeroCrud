@@ -14,6 +14,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { UppercaseDirective } from '../../../directives/uppercase.directive';
+import { SuperheroService } from '../../../services/superhero.service';
 
 const MATERIAL_MODULES = [MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatDialogContent, MatDialogActions, MatDialogModule ];
 
@@ -24,19 +25,24 @@ const MATERIAL_MODULES = [MatFormFieldModule, MatInputModule, FormsModule, MatBu
   templateUrl: './add-edit-modal.component.html',
   styleUrl: './add-edit-modal.component.scss'
 })
+
 export class AddEditModalComponent {
 
   data = inject(MAT_DIALOG_DATA);
+  superheroService = inject(SuperheroService);
   readonly dialogRef = inject(MatDialogRef<AddEditModalComponent>);
-  readonly name = model(this.data.superhero?.name || '');
+  readonly name = model('');
   errorMessage = signal('');
 
   validData(){
-    if(this.name() == ""){
+    if(this.name().trim() == ""){
       this.errorMessage.set("Field Required");
-    } else {
-      this.dialogRef.close(this.name());
+    }
+    if(this.superheroService.getSuperheroByName(this.name())){
+      this.errorMessage.set("Superhero exists")
+    }
+    if(this.errorMessage() == '') {
+      this.dialogRef.close(this.name().trim());
     }
   }
-
 }
