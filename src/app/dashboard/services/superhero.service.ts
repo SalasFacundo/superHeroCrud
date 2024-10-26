@@ -19,6 +19,19 @@ export class SuperheroService {
     return this.superheroesSubject.asObservable();
   }
 
+  editSuperhero(updatedHero: Superhero): void {
+    const index = this.superheroes.findIndex(hero => hero.id === updatedHero.id);
+    if (index !== -1) {
+      this.superheroes[index] = updatedHero;
+      this.superheroesSubject.next([...this.superheroes]);
+    }
+  }
+
+  deleteSuperhero(heroId: number): void {
+    this.superheroes = this.superheroes.filter(hero => hero.id !== heroId);
+    this.superheroesSubject.next([...this.superheroes]);
+  }
+
   private loadInitSuperheroes(){
     this.httpClient.get<Superhero[]>('assets/data/superheroes.json').subscribe({
       next: (data: Superhero[]) => this.superheroesSubject.next(data),
