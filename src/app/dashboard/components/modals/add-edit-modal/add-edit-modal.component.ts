@@ -28,9 +28,18 @@ export class AddEditModalComponent {
   data = inject(MAT_DIALOG_DATA);
   readonly dialogRef = inject(MatDialogRef<AddEditModalComponent>);
   readonly name = model(this.data.superhero?.name || '');
+  errorMessage: string = "";
 
   onNoClick(): void {
-    this.dialogRef.close(this.name());
+    this.dialogRef.close();
+  }
+
+  validData(){
+    if(this.name() == ""){
+      this.errorMessage = "Field Required";
+    } else {
+      this.dialogRef.close(this.name());
+    }
   }
 
 }

@@ -1,15 +1,18 @@
 <div id="component">
   <h2 mat-dialog-title>{{ data.editMode ? 'Edit superhero' : 'New superhero' }}</h2>
-<mat-dialog-content>
-  <p>{{(data.editMode) ? 'Whats your new superhero?': 'Whats your new superhero name?'}}</p>
-  <mat-form-field>
-    <mat-label>Superhero name</mat-label>
-    <input matInput [(ngModel)]="name" />
-  </mat-form-field>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="name()" cdkFocusInitial>Confirm</button>
-</mat-dialog-actions>
+  <mat-dialog-content>
+    <p>{{(data.editMode) ? 'Whats your new superhero?': 'Whats your new superhero name?'}}</p>
+    <mat-form-field>
+      <mat-label>Superhero name</mat-label>
+      <input matInput [(ngModel)]="name" />
+    </mat-form-field>
+    @if(errorMessage){
+    <mat-error>{{errorMessage}}</mat-error>
+    }
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button (click)="validData()" cdkFocusInitial>Confirm</button>
+  </mat-dialog-actions>
 
 </div>
