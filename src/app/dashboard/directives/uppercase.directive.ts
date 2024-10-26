@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject } from '@angular/core';
 
 @Directive({
   selector: '[uppercase]',
@@ -6,7 +6,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 })
 export class UppercaseDirective {
 
-  constructor(private elementRef: ElementRef) { }
+  elementRef = inject(ElementRef)
 
   @HostListener('input', ['$event'])
   onInputChange(event: Event): void {
