@@ -31,7 +31,7 @@ export class AddEditModalComponent {
   data = inject(MAT_DIALOG_DATA);
   superheroService = inject(SuperheroService);
   readonly dialogRef = inject(MatDialogRef<AddEditModalComponent>);
-  readonly name = model('');
+  readonly name = model(this.data.superhero?.name || '');
   errorMessage = signal('');
 
   validData(){
@@ -39,7 +39,9 @@ export class AddEditModalComponent {
       this.errorMessage.set("Field Required");
     }
     if(this.superheroService.getSuperheroByName(this.name())){
-      this.errorMessage.set("Superhero exists")
+      this.errorMessage.set("Superhero exists");
+    } else {
+      this.errorMessage.set("");
     }
     if(this.errorMessage() == '') {
       this.dialogRef.close(this.name().trim());
