@@ -52,6 +52,14 @@ export class SuperheroService {
     }, this.timeDeelayTest);
   }
 
+  getSuperheroById(heroId: number): Superhero | undefined {
+    return this.superheroesSignal().find(hero => hero.id === heroId);
+  }
+
+  getSuperheroByName(heroName: string): Superhero | undefined {
+    return this.superheroesSignal().find(hero => hero.name === heroName);
+  }
+
   private loadInitSuperheroes() {
     this.loadingService.show();
     this.httpClient.get<Superhero[]>('assets/data/superheroes.json').subscribe({
