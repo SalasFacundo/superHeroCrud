@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LoadingService } from './dashboard/services/loading.service';
 import { CommonModule } from '@angular/common';
@@ -17,6 +17,5 @@ export class AppComponent {
   title = 'challenge-superheroes';
 
   loadingService = inject(LoadingService);
-  isLoading = this.loadingService.loading$;
-
+  isLoading = this.loadingService.isLoading;
 }
