@@ -1,4 +1,5 @@
-<h2 mat-dialog-title>{{ data.editMode ? 'Edit ' + data.superhero.name : 'New superhero' }}</h2>
+<div id="component">
+  <h2 mat-dialog-title>{{ data.editMode ? 'Edit superhero' : 'New superhero' }}</h2>
 <mat-dialog-content>
   <p>{{(data.editMode) ? 'Whats your new superhero?': 'Whats your new superhero name?'}}</p>
   <mat-form-field>
@@ -10,3 +11,5 @@
   <button mat-button (click)="onNoClick()">Cancel</button>
   <button mat-button [mat-dialog-close]="name()" cdkFocusInitial>Confirm</button>
 </mat-dialog-actions>
+
+</div>
