@@ -4,7 +4,7 @@
     <p>{{(data.editMode) ? 'Whats your new superhero?': 'Whats your new superhero name?'}}</p>
     <mat-form-field>
       <mat-label>Superhero name</mat-label>
-      <input matInput [(ngModel)]="name" />
+      <input matInput [(ngModel)]="name" uppercase/>
     </mat-form-field>
     @if(errorMessage()){
     <mat-error>{{errorMessage()}}</mat-error>
@@ -14,5 +14,4 @@
     <button mat-button (click)="this.dialogRef.close();">Cancel</button>
     <button mat-button (click)="validData()" cdkFocusInitial>Confirm</button>
   </mat-dialog-actions>
-
 </div>

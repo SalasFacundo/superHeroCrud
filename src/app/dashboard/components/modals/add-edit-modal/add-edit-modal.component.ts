@@ -13,13 +13,14 @@ import {
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { UppercaseDirective } from '../../../directives/uppercase.directive';
 
 const MATERIAL_MODULES = [MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatDialogContent, MatDialogActions, MatDialogModule ];
 
 @Component({
   selector: 'add-edit-modal',
   standalone: true,
-  imports: [MATERIAL_MODULES],
+  imports: [MATERIAL_MODULES, UppercaseDirective],
   templateUrl: './add-edit-modal.component.html',
   styleUrl: './add-edit-modal.component.scss'
 })
