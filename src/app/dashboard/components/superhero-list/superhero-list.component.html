@@ -17,8 +17,8 @@
       <ng-container matColumnDef="actions" id="actions_column">
         <th mat-header-cell *matHeaderCellDef id="actions_header"> Actions </th>
         <td mat-cell *matCellDef="let row" id="actions_content">
-          <mat-icon id="edit_button" class="action_button">edit</mat-icon>
-          <mat-icon id="delete_button" class="action_button">delete</mat-icon>
+          <mat-icon id="edit_button" class="action_button" (click)="onEditModal()">edit</mat-icon>
+          <mat-icon id="delete_button" class="action_button" (click)="onDeleteModal(row.name)">delete</mat-icon>
         </td>
       </ng-container>
 

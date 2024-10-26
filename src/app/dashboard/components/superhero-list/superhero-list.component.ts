@@ -8,6 +8,8 @@ import { Superhero } from '../../models/superhero';
 import { SuperheroService } from '../../services/superhero.service';
 import { SuperheroFilterComponent } from '../superhero-filter/superhero-filter.component';
 import {MatIconModule} from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationModalComponent } from '../modals/confirmation-modal/confirmation-modal.component';
 
 const MATERIAL_MODULES = [
   MatFormFieldModule,
@@ -26,7 +28,10 @@ const MATERIAL_MODULES = [
   styleUrl: './superhero-list.component.scss',
 })
 export class SuperheroListComponent implements OnInit {
+
   private superheroService = inject(SuperheroService);
+  readonly confirmDialog = inject(MatDialog);
+
   private readonly sort = viewChild.required<MatSort>(MatSort);
   private readonly paginator = viewChild.required<MatPaginator>(MatPaginator);
 
@@ -66,5 +71,14 @@ export class SuperheroListComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  onEditModal(){}
+  onDeleteModal(superhero: string){
+   this.confirmDialog.open(ConfirmationModalComponent, {
+    data:{
+      superhero: superhero
+    }
+   });
   }
 }
