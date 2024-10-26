@@ -19,6 +19,12 @@ export class SuperheroService {
     return this.superheroesSubject.asObservable();
   }
 
+  addSuperhero(heroName: string): void {
+    const lastHeroId = this.superheroes.length > 0 ? Math.max(...this.superheroes.map(hero => hero.id)) : 0;
+    this.superheroes.push({id: lastHeroId + 1, name: heroName});
+    this.superheroesSubject.next([...this.superheroes]);
+  }
+
   editSuperhero(updatedHero: Superhero): void {
     const index = this.superheroes.findIndex(hero => hero.id === updatedHero.id);
     if (index !== -1) {
@@ -32,9 +38,12 @@ export class SuperheroService {
     this.superheroesSubject.next([...this.superheroes]);
   }
 
-  private loadInitSuperheroes(){
+  private loadInitSuperheroes() {
     this.httpClient.get<Superhero[]>('assets/data/superheroes.json').subscribe({
-      next: (data: Superhero[]) => this.superheroesSubject.next(data),
+      next: (data: Superhero[]) => {
+        this.superheroes = data;
+        this.superheroesSubject.next([...this.superheroes]);
+      },
       error: (error: any) => console.error('Error loading superheroes:', error)
     });
   }
