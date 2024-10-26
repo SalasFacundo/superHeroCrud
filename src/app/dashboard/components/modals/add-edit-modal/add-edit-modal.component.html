@@ -11,7 +11,7 @@
     }
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button (click)="this.dialogRef.close();">Cancel</button>
     <button mat-button (click)="validData()" cdkFocusInitial>Confirm</button>
   </mat-dialog-actions>
 

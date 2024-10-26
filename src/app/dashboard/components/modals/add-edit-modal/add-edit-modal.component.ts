@@ -30,10 +30,6 @@ export class AddEditModalComponent {
   readonly name = model(this.data.superhero?.name || '');
   errorMessage = signal('');
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
   validData(){
     if(this.name() == ""){
       this.errorMessage.set("Field Required");
