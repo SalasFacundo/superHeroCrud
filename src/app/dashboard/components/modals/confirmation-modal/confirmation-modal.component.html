@@ -1,10 +1,10 @@
 <div id="component">
   <div mat-dialog-title>Delete superhero</div>
   <mat-dialog-content>
-    Would you like to delete {{data.superhero}}?
+    Would you like to delete {{data.superhero.name}}?
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-button mat-dialog-close>No</button>
-    <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+    <button mat-button mat-dialog-close (click)='dialogRef.close(false)'>No</button>
+    <button mat-button mat-dialog-close cdkFocusInitial (click)='dialogRef.close(true)'>Yes</button>
   </mat-dialog-actions>
 </div>

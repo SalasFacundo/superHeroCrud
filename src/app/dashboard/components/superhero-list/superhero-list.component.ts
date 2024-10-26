@@ -8,8 +8,9 @@ import { Superhero } from '../../models/superhero';
 import { SuperheroService } from '../../services/superhero.service';
 import { SuperheroFilterComponent } from '../superhero-filter/superhero-filter.component';
 import {MatIconModule} from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationModalComponent } from '../modals/confirmation-modal/confirmation-modal.component';
+import { AddEditModalComponent } from '../modals/add-edit-modal/add-edit-modal.component';
 
 const MATERIAL_MODULES = [
   MatFormFieldModule,
@@ -30,10 +31,12 @@ const MATERIAL_MODULES = [
 export class SuperheroListComponent implements OnInit {
 
   private superheroService = inject(SuperheroService);
-  readonly confirmDialog = inject(MatDialog);
-
+  readonly dialog = inject(MatDialog);
+  readonly superHeroName = signal('');
   private readonly sort = viewChild.required<MatSort>(MatSort);
   private readonly paginator = viewChild.required<MatPaginator>(MatPaginator);
+
+  dialogRef?: MatDialogRef<AddEditModalComponent>;
 
   displayedColumns: string[] = ['id', 'name', 'actions'];
   dataSource!: MatTableDataSource<Superhero>;
@@ -73,12 +76,33 @@ export class SuperheroListComponent implements OnInit {
     }
   }
 
-  onEditModal(){}
-  onDeleteModal(superhero: string){
-   this.confirmDialog.open(ConfirmationModalComponent, {
+  onEditModal(superhero: Superhero){
+    const dialogRef = this.dialog.open(AddEditModalComponent, {
+      data:{
+        superhero: superhero,
+        editMode: true
+      }
+     });
+
+     dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        //TODO implementar servicio para editar
+      }
+    });
+  }
+
+  onDeleteModal(superhero: Superhero){
+   const dialogRef = this.dialog.open(ConfirmationModalComponent, {
     data:{
       superhero: superhero
     }
    });
+
+   dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      console.log("elimino heroe: "+superhero.id)
+      //TODO implementar servicio para eliminar
+    }
+  });
   }
 }

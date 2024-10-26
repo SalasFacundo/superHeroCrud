@@ -14,6 +14,8 @@ const MATERIAL_MODULES = [MatButtonModule, MatDialogContent, MatDialogActions];
 export class ConfirmationModalComponent {
 
   data = inject(MAT_DIALOG_DATA);
+  readonly dialogRef = inject(MatDialogRef<ConfirmationModalComponent>);
+
   superhero = input.required<string>();
 
 }
