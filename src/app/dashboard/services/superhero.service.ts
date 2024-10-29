@@ -18,6 +18,14 @@ export class SuperheroService {
     return this.superheroesSignal;
   }
 
+  setSuperheroes(superheroes: Superhero[]): void {
+   this.superheroesSignal.set(superheroes);
+  }
+
+  getTimeDeelayTest(){
+    return this.timeDeelayTest;
+  }
+
   addSuperhero(heroName: string): void {
     this.loadingService.show();
     setTimeout(() => {
@@ -59,6 +67,7 @@ export class SuperheroService {
   getSuperheroByName(heroName: string): Superhero | undefined {
     return this.superheroesSignal().find(hero => hero.name === heroName);
   }
+
 
   private loadInitSuperheroes() {
     this.loadingService.show();
