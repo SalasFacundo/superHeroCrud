@@ -48,6 +48,13 @@ describe('AddEditModalComponent', () => {
     expect(dialogRefMock.close).not.toHaveBeenCalled();
   });
 
+  it('should set error message when name is just spaces', () => {
+    component.name.set(' ');
+    component.validData();
+    expect(component.errorMessage()).toBe('Field Required');
+    expect(dialogRefMock.close).not.toHaveBeenCalled();
+  });
+
   it('should close the dialog with the superhero name when valid', () => {
     superheroServiceMock.getSuperheroByName.and.returnValue(undefined);
     component.validData();
