@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingInterceptor } from './dashboard/interceptors/loading.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, MatProgressSpinnerModule ],
+  imports: [RouterOutlet, CommonModule, MatProgressSpinnerModule,  BrowserAnimationsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
