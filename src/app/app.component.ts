@@ -3,14 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { LoadingService } from './dashboard/services/loading.service';
 import { CommonModule } from '@angular/common';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { LoadingInterceptor } from './dashboard/interceptors/loading.interceptor';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, MatProgressSpinnerModule,  BrowserAnimationsModule],
+  imports: [RouterOutlet, CommonModule, MatProgressSpinnerModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
